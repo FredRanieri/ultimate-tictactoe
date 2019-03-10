@@ -1,0 +1,24 @@
+.containerApp{
+  text-align: center;
+  align-content: center;
+}
+
+.containerBoard{
+  text-align: center;
+  align-content: center;
+  margin: 5px;
+}
+
+.board{
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 180px;
+  align-content: center; 
+}
+
+.boardApp{
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 600px;
+  align-content: center;
+}
