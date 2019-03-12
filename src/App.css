@@ -23,6 +23,13 @@
   margin: 8px;
 }
 
+.BoardFinished {
+  height: 170px;
+  width: 170px;
+  line-height: 140px;
+  font-size: 200px;
+}
+
 .SquareBig {
   height: 170px;
   width: 170px;

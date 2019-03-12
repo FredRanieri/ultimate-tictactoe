@@ -9,20 +9,45 @@ class App extends Component {
             player: "X",
             boardField: [   Array(9).fill(field),Array(9).fill(field),Array(9).fill(field),
                             Array(9).fill(field),Array(9).fill(field),Array(9).fill(field),
-                            Array(9).fill(field),Array(9).fill(field),Array(9).fill(field)]
+                            Array(9).fill(field),Array(9).fill(field),Array(9).fill(field)],
+            
+            gameField: Array(9).fill(field)
         }
     }
+
+    checkWinner(lines, ind) {
+        var winLines =
+          [
+            ["0", "1", '2'],
+            ["3", "4", '5'],
+            ["6", "7", '8'],
+            ["0", "3", '6'],
+            ["1", "4", '7'],
+            ["2", "5", '8'],
+            ["0", "4", '8'],
+            ["2", "4", '6'],
+          ]
+        for(var i = 0; i < winLines.length; i++){
+            if(lines[winLines[i][0]] === lines[winLines[i][1]] && lines[winLines[i][0]] === lines[winLines[i][2]] && lines[winLines[i][0]] !== "-"){
+                var auxField = this.state.gameField
+                auxField[ind] = this.state.player !== "X" ? "O" : "X"
+                this.setState({
+                    gameField: auxField
+                })
+            }
+        }
+      }
 
     changeValue(e, i){
         var j = e.target.id
         if(this.state.boardField[i][j] === "-"){
             var auxSquare = this.state.boardField
             auxSquare[i][j] = this.state.player
-            console.log(auxSquare)
             this.setState({
                 boardField: auxSquare,
                 player: this.state.player === "X" ? "O" : "X"
             });
+            this.checkWinner(this.state.boardField[i], i)
         }
     }
 
@@ -39,13 +64,26 @@ class App extends Component {
     createGame = (board) => {
         var game = []
         for(var i = 0; i < 9; i++){
-            game.push(
-                <div className = "SquareBig">
-                    <div className = "Board">
-                        {this.createBoard(board[i],i)}
+            if(this.state.gameField[i] === "-"){
+                game.push(
+                    <div className = "SquareBig">
+                        <div className = "Board">
+                            {this.createBoard(board[i],i)}
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
+            else{
+                game.push(
+                    <div className = "SquareBig">
+                        <div className = "Board">
+                            <div className = "BoardFinished">
+                                {this.state.gameField[i]}
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
         }
         return game
     }
@@ -54,6 +92,7 @@ class App extends Component {
         return (
         <div className="App">
             <h1>Ultimate Tic Tac Toe</h1>
+            <h2>Player {this.state.player}</h2>
             <div className="MainGame">
                 {this.createGame(this.state.boardField)}
             </div>
