@@ -1,24 +1,54 @@
-.containerApp{
+.App {
   text-align: center;
-  align-content: center;
+  align-items: center;
 }
 
-.containerBoard{
-  text-align: center;
-  align-content: center;
-  margin: 5px;
-}
-
-.board{
-  display: inline-flex;
+.MainGame{
+  display: flex;
+  width: 510px;
+  height: 510px;
+  flex-direction: row;
   flex-wrap: wrap;
-  width: 180px;
-  align-content: center; 
+  justify-content: flex-start;
+  margin: auto;
 }
 
-.boardApp{
-  display: inline-flex;
+.Board {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  flex-direction: row;
   flex-wrap: wrap;
-  width: 600px;
-  align-content: center;
+  justify-content: flex-start;
+  margin: 8px;
+}
+
+.SquareBig {
+  height: 170px;
+  width: 170px;
+  box-sizing: border-box;
+  border: 2px solid black;
+}
+
+.SquareSmallAble {
+  height: 50px;
+  width: 50px;
+  box-sizing: border-box;
+  border: 2px solid black;
+  line-height: 50px;
+  font-size: 40px;
+}
+
+.SquareSmallDisable {
+  height: 50px;
+  width: 50px;
+  box-sizing: border-box;
+  border: 2px solid black;
+  line-height: 50px;
+  font-size: 40px;
+}
+
+.SquareSmallAble:hover{
+  cursor: pointer;
+  background-color: orange;
 }
