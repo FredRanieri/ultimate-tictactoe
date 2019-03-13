@@ -11,7 +11,8 @@ class App extends Component {
                             Array(9).fill(field),Array(9).fill(field),Array(9).fill(field),
                             Array(9).fill(field),Array(9).fill(field),Array(9).fill(field)],
             
-            gameField: Array(9).fill(field)
+            gameField: Array(9).fill(field),
+            ableBoard: Array(9).fill(true)
         }
     }
 
@@ -40,13 +41,17 @@ class App extends Component {
 
     changeValue(e, i){
         var j = e.target.id
-        if(this.state.boardField[i][j] === "-"){
+        if(this.state.boardField[i][j] === "-" && this.state.ableBoard[i]){
+            var auxBoard = Array(9).fill(false)
+            auxBoard[j] = true
             var auxSquare = this.state.boardField
             auxSquare[i][j] = this.state.player
             this.setState({
                 boardField: auxSquare,
-                player: this.state.player === "X" ? "O" : "X"
+                player: this.state.player === "X" ? "O" : "X",
+                ableBoard: auxBoard
             });
+            console.log(this.state.ableBoard)
             this.checkWinner(this.state.boardField[i], i)
         }
     }
@@ -65,9 +70,10 @@ class App extends Component {
         var game = []
         for(var i = 0; i < 9; i++){
             if(this.state.gameField[i] === "-"){
+                var css = !this.state.ableBoard[i] ? "Able" : "Disable"
                 game.push(
                     <div className = "SquareBig">
-                        <div className = "Board">
+                        <div className = {"Board" + css}>
                             {this.createBoard(board[i],i)}
                         </div>
                     </div>
