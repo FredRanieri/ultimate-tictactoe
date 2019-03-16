@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+// import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 class App extends Component {
     constructor(){
@@ -26,7 +27,7 @@ class App extends Component {
             ["1", "4", '7'],
             ["2", "5", '8'],
             ["0", "4", '8'],
-            ["2", "4", '6'],
+            ["2", "4", '6']
           ]
         for(var i = 0; i < winLines.length; i++){
             if(lines[winLines[i][0]] === lines[winLines[i][1]] && lines[winLines[i][0]] === lines[winLines[i][2]] && lines[winLines[i][0]] !== "-"){
@@ -39,20 +40,42 @@ class App extends Component {
         }
       }
 
+    checkAbleField(position) {        
+        var auxAbleBoard =  Array(9).fill(false)
+        if(this.state.gameField[position] !== '-') {
+            auxAbleBoard = Array(9).fill(true)      
+            for(var i = 0; i < 9; i++) {
+                if(this.state.gameField[i] !== '-') {
+                    auxAbleBoard[i] = false
+                }
+            }
+            this.setState({
+                ableBoard: auxAbleBoard
+            })
+        } else {
+            auxAbleBoard[position] = true
+            this.setState({
+                ableBoard: auxAbleBoard
+            })
+        }
+    }
+
     changeValue(e, i){
         var j = e.target.id
-        if(this.state.boardField[i][j] === "-" && this.state.ableBoard[i]){
-            var auxBoard = Array(9).fill(false)
-            auxBoard[j] = true
+        if(this.state.boardField[i][j] === "-" && this.state.ableBoard[i]){            
             var auxSquare = this.state.boardField
             auxSquare[i][j] = this.state.player
             this.setState({
                 boardField: auxSquare,
-                player: this.state.player === "X" ? "O" : "X",
-                ableBoard: auxBoard
+                player: this.state.player === "X" ? "O" : "X"
             });
+            console.log(this.state.gameField)
             console.log(this.state.ableBoard)
             this.checkWinner(this.state.boardField[i], i)
+            console.log(j)
+
+            this.checkAbleField(j)
+                       
         }
     }
 
