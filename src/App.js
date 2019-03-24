@@ -13,7 +13,8 @@ class App extends Component {
                             Array(9).fill(field),Array(9).fill(field),Array(9).fill(field)],
             
             gameField: Array(9).fill(field),
-            ableBoard: Array(9).fill(true)
+            ableBoard: Array(9).fill(true),
+            winner: '-'
         }
     }
 
@@ -38,8 +39,32 @@ class App extends Component {
                 })
             }
         }
-      }
-
+    }
+    
+    checkGameWinner() {
+        var winLines =
+          [
+            ["0", "1", '2'],
+            ["3", "4", '5'],
+            ["6", "7", '8'],
+            ["0", "3", '6'],
+            ["1", "4", '7'],
+            ["2", "5", '8'],
+            ["0", "4", '8'],
+            ["2", "4", '6']
+          ]
+        for(var i = 0; i < winLines.length; i++) {
+            if(this.state.gameField[winLines[i][0]] === this.state.gameField[winLines[i][1]] && 
+                this.state.gameField[winLines[i][0]] === this.state.gameField[winLines[i][2]] && 
+                this.state.gameField[winLines[i][0]] !== "-") {
+                    this.setState({
+                        winner : this.state.player
+                    })
+                }
+        }
+        
+    }
+    
     checkAbleField(position) {        
         var auxAbleBoard =  Array(9).fill(false)
         if(this.state.gameField[position] !== '-') {
@@ -59,26 +84,23 @@ class App extends Component {
             })
         }
     }
-
     changeValue(e, i){
         var j = e.target.id
-        if(this.state.boardField[i][j] === "-" && this.state.ableBoard[i]){            
+        if(this.state.boardField[i][j] === "-" && this.state.ableBoard[i]){   
             var auxSquare = this.state.boardField
             auxSquare[i][j] = this.state.player
             this.setState({
                 boardField: auxSquare,
                 player: this.state.player === "X" ? "O" : "X"
             });
-            console.log(this.state.gameField)
-            console.log(this.state.ableBoard)
             this.checkWinner(this.state.boardField[i], i)
-            console.log(j)
-
             this.checkAbleField(j)
-                       
+            console.log(this.state.gameField)
+            this.checkGameWinner()
+            console.log(this.state.winner)
         }
     }
-
+    
     createBoard = (square,j) => {
         var board = []
         var css = ""
@@ -88,7 +110,7 @@ class App extends Component {
         }
         return board
     }
-
+    
     createGame = (board) => {
         var game = []
         for(var i = 0; i < 9; i++){
@@ -113,6 +135,20 @@ class App extends Component {
                     </div>
                 )
             }
+        }
+        if(this.state.winner !== '-') {
+            alert("Player " + this.state.winner + " ganhou a partida")
+            var field = '-'
+            this.setState({
+                player: "X",
+                boardField: [   Array(9).fill(field),Array(9).fill(field),Array(9).fill(field),
+                                Array(9).fill(field),Array(9).fill(field),Array(9).fill(field),
+                                Array(9).fill(field),Array(9).fill(field),Array(9).fill(field)],
+                
+                gameField: Array(9).fill(field),
+                ableBoard: Array(9).fill(true),
+                winner: '-'
+            })
         }
         return game
     }
